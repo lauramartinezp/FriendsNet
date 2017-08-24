@@ -1,7 +1,8 @@
-package com.everis.alicante.courses.beca.summer17.friendsnet.dao;
+package com.everis.alicante.courses.beca.summer17.friendsnet.manager;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -11,12 +12,12 @@ import javax.persistence.criteria.Root;
 
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
-public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> implements EntityDAO<E, ID> {
+public class AbstractManager<E extends FNEntity, ID extends Serializable> implements Manager<E, ID> {
 	
-	private final Class<E> persistentClass;
+private final Class<E> persistentClass;
 	
 	@SuppressWarnings("unchecked")
-	public AbstractDAO() {
+	public AbstractManager() {
 		this.persistentClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		
 	}
@@ -28,9 +29,9 @@ public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> i
 		
 		return this.entityManager;
 	}
-	
+
+	@Override
 	public Iterable<E> findAll() {
-		
 		CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<E> cq = cb.createQuery(this.persistentClass);
 		Root<E> rootEntry = cq.from(this.persistentClass);
@@ -39,34 +40,39 @@ public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> i
 		
 		return allQuery.getResultList();
 	}
-	
+
+	@Override
 	public E findById(ID id) {
 		return entityManager.find(persistentClass, id);
 	}
-	
-	public E save (E e) {
+
+	@Override
+	public E save(E e) {
 		entityManager.persist(e);
 		return e;
 	}
 
-	public Iterable<E> save (Iterable<E> es) {
+	@Override
+	public Iterable<E> save(Iterable<E> es) {
 		entityManager.persist(es);
 		return es;
 	}
-	
-	public E update (E e) {
+
+	@Override
+	public E update(E e) {
 		entityManager.merge(e);
 		return e;
 	}
-	
-	public Iterable<E> update (Iterable<E> es) {
+
+	@Override
+	public Iterable<E> update(Iterable<E> es) {
 		entityManager.merge(es);
 		return es;
 	}
-	
+
+	@Override
 	public void remove(ID id) {
-		entityManager.remove(id);
-		
-		
+		entityManager.remove(id);		
 	}
+
 }
