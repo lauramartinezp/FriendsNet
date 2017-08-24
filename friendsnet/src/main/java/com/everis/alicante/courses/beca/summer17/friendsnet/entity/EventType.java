@@ -1,5 +1,6 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.entity;
 
-public interface FNEntity{
+public enum EventType {
 
+	PARTY, GENERAL, CONCERT, TRIP, JOB
 }
