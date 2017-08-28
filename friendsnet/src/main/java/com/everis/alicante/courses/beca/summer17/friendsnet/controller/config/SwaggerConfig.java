@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -19,42 +18,26 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-	/** The Logger */
-
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	/** Init */
-
+	
 	@PostConstruct
 	public void init() {
 		logger.info("Initializing SwaggerConfig...");
 	}
-
-	/**
-	 * Api docket.
-	 * 
-	 * @return the docket
-	 */
-
+	
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors
-						.basePackage("com.everis.alicante.courses.beca.summer17.friendsnet.controller"))
+				.basePackage("com.everis.alicante.courses.beca.summer17.friendsNet.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(apiInfo());
 	}
-
-	/**
-	 * Api info api info.
-	 * 
-	 * @return the api info
-	 */
-
+	
 	private ApiInfo apiInfo() {
-		return new ApiInfo("FriendsNet Application REST API",
-				"The API exposes common functionallities to manage the FirendsNet", "Version 0.1",
-				"Terms of service", new Contact ("Dimitar Raev","", "dimitar.raev.90@gmail.com"),
-				"Creative Communs NoCommercial-Atributtion 4.0 Internacional.", 
-				"http://creativecommons.org/licenses/by-nc/4.0/");
+		ApiInfo apiInfo = new ApiInfo("Sample Application REST API", 
+				"The API exposes common functionallities to " + 
+		"manage the FriendsNet", "API TOS", "Terms of service", "lauramartinezp@outlook.es",
+		"License of API", "API license URL");
+		return apiInfo;
 	}
 }

@@ -10,6 +10,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Service;
+
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
 public class AbstractManager<E extends FNEntity, ID extends Serializable> implements Manager<E, ID> {
