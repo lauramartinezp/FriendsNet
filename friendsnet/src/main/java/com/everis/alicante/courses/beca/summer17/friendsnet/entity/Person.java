@@ -1,34 +1,41 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.entity;
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import java.util.Set;
+import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false, exclude={"friends"})
 @Entity
-@Table(name= "Person")
-public class Person implements FNEntity{
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "person_id", unique=true, nullable=false)
-	private Long id;
-	
-	@Column(name ="name", length = 200)
-	private String name;
-	
-	@Column(name ="surname",length = 200)
-	private String surname;
-	
-	@Column(name ="picture")
-	private byte[] picture;
-	
+@Table(name = "persons")
+public class Person implements FNEntity {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "person_id")
+	private Long id;
+
+	private String name;
+
+	private String surname;
+
+	private byte[] picture;
+
+	@ManyToMany(mappedBy = "groups")
+	@JsonIgnore
+	private Set<Group> groups;
+
+	@OneToMany(mappedBy = "likes")
+	@JsonIgnore
+	private Set<Like> likes;
+
+	@OneToMany(mappedBy = "posts")
+	@JsonIgnore
+	private Set<Post> posts;
+
+	@ManyToMany(mappedBy = "events")
+	@JsonIgnore
+	private Set<Event> events;
 
 }
