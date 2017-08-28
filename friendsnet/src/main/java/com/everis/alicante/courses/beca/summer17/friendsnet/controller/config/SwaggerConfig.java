@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors
-				.basePackage("com.everis.alicante.courses.beca.summer17.friendsNet.controller"))
+				.basePackage("com.everis.alicante.courses.beca.summer17.friendsnet.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(apiInfo());
 	}
 	
