@@ -26,6 +26,25 @@ public class Person implements FNEntity {
 	@JsonIgnore
 	private Set<Group> groups;
 
+	// @OneToMany(mappedBy = "friends")
+	// @JsonIgnore
+	// private final Set<Person> friends = new HashSet<>();
+
+	// **************
+	// testing
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "friends", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {@JoinColumn(name = "friend_id") })
+	@JsonIgnore
+	private Set<Person> friends;
+
+	@ManyToMany(mappedBy = "friends")
+	@JsonIgnore
+	private Set<Person> friend;
+
+	// ************
+	// endtest
+
 	@OneToMany(mappedBy = "likes")
 	@JsonIgnore
 	private Set<Like> likes;

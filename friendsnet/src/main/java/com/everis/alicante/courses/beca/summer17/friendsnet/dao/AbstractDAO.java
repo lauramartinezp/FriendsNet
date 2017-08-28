@@ -11,10 +11,12 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
 @Service
+@Transactional
 public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> implements EntityDAO<E, ID> {
 	
 	private final Class<E> persistentClass;
