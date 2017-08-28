@@ -9,11 +9,21 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
 public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> implements EntityDAO<E, ID> {
 	
 	private final Class<E> persistentClass;
+	
+	@Autowired
+	@PersistenceContext
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return this.entityManager;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public AbstractDAO() {
@@ -21,13 +31,6 @@ public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> i
 		
 	}
 	
-	@PersistenceContext
-	private EntityManager entityManager;
-	
-	public EntityManager getEntityManager() {
-		
-		return this.entityManager;
-	}
 	
 	public Iterable<E> findAll() {
 		
@@ -64,8 +67,8 @@ public abstract class AbstractDAO<E extends FNEntity, ID extends Serializable> i
 		return es;
 	}
 	
-	public void remove(ID id) {
-		entityManager.remove(id);
+	public void remove(E e) {
+		entityManager.remove(e);
 		
 		
 	}

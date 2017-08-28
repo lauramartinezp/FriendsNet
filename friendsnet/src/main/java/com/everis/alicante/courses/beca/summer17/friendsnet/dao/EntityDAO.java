@@ -2,6 +2,7 @@ package com.everis.alicante.courses.beca.summer17.friendsnet.dao;
 
 import java.io.Serializable;
 
+
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
 public interface EntityDAO<E extends FNEntity, ID extends Serializable>{
@@ -18,5 +19,5 @@ public interface EntityDAO<E extends FNEntity, ID extends Serializable>{
 	
 	Iterable<E> update (Iterable<E> es);
 	
-	void remove(ID id);
+	void remove(E e);
 }

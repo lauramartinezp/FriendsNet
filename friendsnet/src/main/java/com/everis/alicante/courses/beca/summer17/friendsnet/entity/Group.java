@@ -1,6 +1,7 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.entity;
 
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,23 +13,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name= "Person")
-public class Person implements FNEntity{
+@Table(name = "Group")
+public class Group implements FNEntity{
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "person_id", unique=true, nullable=false)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="groupp_id", nullable = false, unique = true)
 	private Long id;
 	
-	@Column(name ="name", length = 200)
+	@Column(name = "name", length = 200)
 	private String name;
-	
-	@Column(name ="surname",length = 200)
-	private String surname;
-	
+
 	@Column(name ="picture")
 	private byte[] picture;
 	
-
-
+	
+	
 }

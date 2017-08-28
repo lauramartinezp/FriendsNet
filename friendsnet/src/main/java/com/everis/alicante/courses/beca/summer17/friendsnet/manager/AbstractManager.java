@@ -71,8 +71,9 @@ private final Class<E> persistentClass;
 	}
 
 	@Override
-	public void remove(ID id) {
-		entityManager.remove(id);		
+	public void remove(E e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
