@@ -42,7 +42,7 @@ public class PostController {
 	public Post create(@RequestBody Post e) {
 		return this.manager.save(e);
 	}
-	@GetMapping("{/person/{id}")
+	@GetMapping("/person/{id}")
 	public Set<Post> getByPersonId(@RequestParam Long id) {
 		Person person = this.personManager.findOne(id);
 		return person.getPosts();
