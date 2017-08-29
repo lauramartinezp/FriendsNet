@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 import lombok.Data;
 
 @Data
-@Entity(name="GROUPTABLE")
+@Entity(name="GROUP")
 public class Group implements FNEntity {
 
 	@Id

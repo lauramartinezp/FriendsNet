@@ -7,12 +7,12 @@ import com.everis.alicante.courses.beca.summer17.friendsnet.entity.FNEntity;
 
 public interface EntityDAO<E extends FNEntity, ID extends Serializable>{
 	
-	public Iterable<E> findAll();
-	public E findById(ID id);
-	public Iterable<E> findByIds(Iterable<ID> ids);
-	public E save(E e);
-	public Iterable<E> save(Iterable<E> e);
-	public E update(E e);
-	public Iterable<E> update(Iterable<E> e);
-	public void remove(E e);
+	Iterable<E> findAll();
+	E findOne(ID id);
+	Iterable<E> findAll(Iterable<ID> ids);
+	<S extends E> S save(S entity);
+	<S extends E> Iterable<S> save(Iterable<S> entities);
+	//E update(E e);
+	//Iterable<E> update(Iterable<E> e);
+	void delete(E entity);
 }

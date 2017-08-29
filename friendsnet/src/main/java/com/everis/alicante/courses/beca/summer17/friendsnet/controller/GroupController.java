@@ -37,7 +37,7 @@ public class GroupController {
 	
 	@GetMapping("/{id}")
 	public Group getById(@PathVariable Long id) {
-		return manager.findById(id);
+		return manager.findOne(id);
 	}
 	
 	@PostMapping
@@ -47,20 +47,20 @@ public class GroupController {
 	
 	@GetMapping("/person/{id}")
 	public Set<Group> getByPersonId(@PathVariable Long id) {
-		Person person = personManager.findById(id);
+		Person person = personManager.findOne(id);
 		return person.getGroups();
 	}
 	
 	@PostMapping("/{idGroup}/relate")
 	public Group relate(@PathVariable Long idGroup, @RequestBody Long idPerson) {
-		Person person = personManager.findById(idPerson);
-		Group group = manager.findById(idGroup);
+		Person person = personManager.findOne(idPerson);
+		Group group = manager.findOne(idGroup);
 		group.getPersonsInGroup().add(person);
 		return manager.save(group);
 	}
 	
 	@DeleteMapping("/{id}")
 	public void remove(@PathVariable Long id) {
-		manager.remove(manager.findById(id));
+		manager.delete(manager.findOne(id));
 	}
 }

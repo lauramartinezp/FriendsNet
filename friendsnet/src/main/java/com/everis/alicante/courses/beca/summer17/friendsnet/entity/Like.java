@@ -21,7 +21,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="OPINION")
+@Table(name="LIKE")
 public class Like implements FNEntity{
 
 	@Id

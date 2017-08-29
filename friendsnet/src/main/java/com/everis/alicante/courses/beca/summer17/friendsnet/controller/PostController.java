@@ -36,7 +36,7 @@ public class PostController {
 	}
 	@GetMapping("/{id}")
 	public Post getById(@RequestParam Long id) {
-		return this.manager.findById(id);
+		return this.manager.findOne(id);
 	}
 	@PostMapping
 	public Post create(@RequestBody Post e) {
@@ -44,12 +44,12 @@ public class PostController {
 	}
 	@GetMapping("{/person/{id}")
 	public Set<Post> getByPersonId(@RequestParam Long id) {
-		Person person = this.personManager.findById(id);
+		Person person = this.personManager.findOne(id);
 		return person.getPosts();
 	}
 	@DeleteMapping("/{id}")
 	public void remove(Long id) {
-		this.manager.remove(this.manager.findById(id));
+		this.manager.delete(this.manager.findOne(id));
 	}
 	
 	

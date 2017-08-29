@@ -5,6 +5,11 @@ import com.everis.alicante.courses.beca.summer17.friendsnet.entity.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,9 +71,12 @@ public class PersonControllerIT {
 
     @Test
     @DatabaseSetup("/InitialPerson.xml")
+    @ExpectedDatabase("after-saving-person.xml")
     public void testFindAllWithContent() throws JSONException {
         //Arrange
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        List<Person> personList = new ArrayList<>();
+        personList.add(new Person());
+        HttpEntity<List<Person>> entity = new HttpEntity<List<Person>>(personList, headers);
 
         // Act
         ResponseEntity<String> response = restTemplate.exchange(

@@ -39,7 +39,7 @@ public class EventController {
 
 	@GetMapping("/{id}")
 	public Event getById(@PathVariable Long id) {
-		return (Event) manager.findById(id);
+		return (Event) manager.findOne(id);
 	}
 
 	@PostMapping
@@ -49,19 +49,19 @@ public class EventController {
 
 	@DeleteMapping("/{id}")
 	public void remove(@PathVariable Long id) {
-		manager.remove(manager.findById(id));
+		manager.delete(manager.findOne(id));
 	}
 	
 	@GetMapping("/person/{id}")
 	public Set<Event> getByPersonId(@PathVariable Long id) {
-		Person person = personManager.findById(id);
+		Person person = personManager.findOne(id);
 		return person.getEvents();
 	}
 	
 	@PostMapping("/{idEvent}/person/{idPerson}/add")
 	public Event addPersons(@PathVariable Long idPerson, @PathVariable Long idEvent) {
-		Person person = personManager.findById(idPerson);
-		Event event = manager.findById(idEvent);
+		Person person = personManager.findOne(idPerson);
+		Event event = manager.findOne(idEvent);
 		event.getPersonsEvent().add(person);
 		return manager.save(event);
 	}

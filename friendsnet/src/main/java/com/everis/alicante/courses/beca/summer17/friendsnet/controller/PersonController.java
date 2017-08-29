@@ -32,13 +32,13 @@ public class PersonController {
 	
 	@GetMapping("/{id}")
 	public Person getById(@RequestParam Long l) {
-		return manager.findById(l);
+		return manager.findOne(l);
 	}
 	
 	@PostMapping
 	public Person create(@RequestBody Person p) {
 		 manager.save(p);
-		 return manager.findById(p.getId());
+		 return manager.findOne(p.getId());
 		 
 
 	}
@@ -50,7 +50,7 @@ public class PersonController {
 	
 	@DeleteMapping("/{id}")
 	public void remove(Long l) {
-		manager.remove(manager.findById(l));
+		manager.delete(manager.findOne(l));
 	}
 	
 }
