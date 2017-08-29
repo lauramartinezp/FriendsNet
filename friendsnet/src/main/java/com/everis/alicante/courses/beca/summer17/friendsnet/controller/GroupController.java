@@ -1,10 +1,11 @@
-package com.everis.alicante.courses.beca.summer17.friendsnet.controller;
+	package com.everis.alicante.courses.beca.summer17.friendsnet.controller;
 
 import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.Group;
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.Person;
 import com.everis.alicante.courses.beca.summer17.friendsnet.manager.GroupManager;
+import com.everis.alicante.courses.beca.summer17.friendsnet.manager.PersonManager;
 
 @RestController
 @RequestMapping("/group")
@@ -23,6 +26,9 @@ public class GroupController {
 	
 	@Autowired
 	private GroupManager manager;
+	
+	@Autowired
+	private PersonManager personManager;
 	
 	@GetMapping
 	public List<Group> getAll(){
@@ -39,15 +45,18 @@ public class GroupController {
 		return manager.save(e);
 	}
 	
-	public Group getByPersonId(Long string) {
-		//ACABAR
-		return null;
+	@GetMapping("/person/{id}")
+	public Set<Group> getByPersonId(@PathVariable Long id) {
+		Person person = personManager.findById(id);
+		return person.getGroups();
 	}
 	
-	
-	public Person relate(Long string, List<Long> strings) {
-		//ACABAR
-		return null;
+	@PostMapping("/{idGroup}/relate")
+	public Group relate(@PathVariable Long idGroup, @RequestBody Long idPerson) {
+		Person person = personManager.findById(idPerson);
+		Group group = manager.findById(idGroup);
+		group.getPersonsInGroup().add(person);
+		return manager.save(group);
 	}
 	
 	@DeleteMapping("/{id}")

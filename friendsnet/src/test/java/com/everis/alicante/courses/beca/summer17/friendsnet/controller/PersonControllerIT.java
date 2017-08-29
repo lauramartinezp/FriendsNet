@@ -22,67 +22,66 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PersonControllerIT {
 
-    @LocalServerPort
-    private int port;
+	@LocalServerPort
+	private int port;
 
-    @Autowired
-    private PersonDAO dao;
+	@Autowired
+	private PersonDAO dao;
 
-    TestRestTemplate restTemplate = new TestRestTemplate();
+	TestRestTemplate restTemplate = new TestRestTemplate();
 
-    HttpHeaders headers = new HttpHeaders();
+	HttpHeaders headers = new HttpHeaders();
 
-    private ObjectMapper mapper;
+	private ObjectMapper mapper;
 
-    @Before
-    public void setup() {
+	@Before
+	public void setup() {
 
-        this.mapper = new ObjectMapper();
-        Iterable<Person> all = dao.findAll();
-        for(Person person: all) {
-            dao.remove(person);
-        }
-    }
+		this.mapper = new ObjectMapper();
+		Iterable<Person> all = dao.findAll();
+		for (Person person : all) {
+			dao.remove(person);
+		}
+	}
 
+//	@Test
+//	public void testFindAllNoContent() throws JSONException {
+//		// Arrange
+//		
+//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//
+//		// Act
+//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/person"), HttpMethod.GET, null,
+//				String.class);
+//
+//		// Assert
+//		JSONAssert.assertEquals("[]", response.getBody(), false);
+//	}
 
- //   @Test
- //   public void testFindAllNoContent() throws JSONException {
- //      //Arrange
- //       HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+	@Test
+	public void testFindAllWithContent() throws JSONException {
+		// Arrange
+		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+		Person person1 = new Person();
+		person1.setName("person1");
+		person1.setSurname("surname");
+		dao.save(person1);
+		// dao.save(new Person());
+		// dao.save(new Person());
+		Person person2 = new Person();
+		person2.setName("person1");
+		person2.setSurname("surname");
+		dao.save(person2);
 
-        // Act
-   //    ResponseEntity<String> response = restTemplate.exchange(
-  //             createURLWithPort("/person"),
-   //             HttpMethod.GET, null, String.class);
+		// Act
+		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/person"), HttpMethod.GET, null,
+				String.class);
 
-        // Assert
-   //     JSONAssert.assertEquals("[]", response.getBody(), false);
-   // }
+		// Assert
+		JSONAssert.assertEquals("[{'id': 1, 'name': 'person1'}, {'id': 2, 'name': 'person1'}]", response.getBody(), false);
+	}
 
-    @Test
-    public void testFindAllWithContent() throws JSONException {
-        //Arrange
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-        Person person = new Person();
-        person.setName("person");
-        person.setSurname("Garcia");
-        dao.save(person);
-        
-        Person person1 = new Person();
-        person1.setName("person1");
-        person1.setSurname("Garcia");
-        dao.save(person);
-
-        // Act
-        ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/person"),
-                HttpMethod.GET, null, String.class);
-
-        // Assert
-        JSONAssert.assertEquals("[{'id':1, 'name':'person'},{'id'=2, 'name'='person1'}]", response.getBody(), false);
-    }
-
-    private String createURLWithPort(String uri) {
-        return "http://localhost:" + port + uri;
-    }
+	private String createURLWithPort(String uri) {
+		return "http://localhost:" + port + uri;
+	}
 }

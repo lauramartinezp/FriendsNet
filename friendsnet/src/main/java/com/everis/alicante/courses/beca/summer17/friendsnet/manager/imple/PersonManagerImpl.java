@@ -1,5 +1,7 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.manager.imple;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,7 @@ public class PersonManagerImpl extends AbstractManager<Person, Long> implements 
 	
 	@Override
 	public Person relatePersons(Long id, Iterable<Long> ids) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.persondao.relatePersons(id, (List<Long>) ids);
 	}
 
 	
