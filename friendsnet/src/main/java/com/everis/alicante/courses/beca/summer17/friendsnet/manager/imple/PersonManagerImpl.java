@@ -1,6 +1,10 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.manager.imple;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +23,14 @@ public class PersonManagerImpl extends AbstractManager<Person, Long> implements 
 	
 	@Override
 	public Person relatePersons(Long id, Iterable<Long> ids) {
-		return this.persondao.relatePersons(id, (List<Long>) ids);
+		Person person = persondao.findOne(id);
+		Set<Person> persons = StreamSupport.stream(ids.spliterator(), false).map(persondao::findOne).collect(Collectors.toSet());
+//		Set<Person> personsx = new HashSet<>();
+//		for(Long idx: ids) {
+//			personsx.add(persondao.findOne(idx));
+//		}
+		person.getPersons().addAll(persons);
+		return persondao.save(person);
 	}
 
 	@Override
