@@ -3,6 +3,8 @@ package com.everis.alicante.courses.beca.summer17.friendsnet.controller;
 import com.everis.alicante.courses.beca.summer17.friendsnet.dao.PersonDAO;
 import com.everis.alicante.courses.beca.summer17.friendsnet.entity.Person;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,72 +18,68 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class})
 public class PersonControllerIT {
 
-	@LocalServerPort
-	private int port;
+    @LocalServerPort
+    private int port;
 
-	@Autowired
-	private PersonDAO dao;
+    @Autowired
+    private PersonDAO dao;
 
-	TestRestTemplate restTemplate = new TestRestTemplate();
+    TestRestTemplate restTemplate = new TestRestTemplate();
 
-	HttpHeaders headers = new HttpHeaders();
+    HttpHeaders headers = new HttpHeaders();
 
-	private ObjectMapper mapper;
+    private ObjectMapper mapper;
 
-	@Before
-	public void setup() {
+    @Before
+    public void setup() {
+        this.mapper = new ObjectMapper();
+    }
 
-		this.mapper = new ObjectMapper();
-		Iterable<Person> all = dao.findAll();
-		for (Person person : all) {
-			dao.remove(person);
-		}
-	}
 
-//	@Test
-//	public void testFindAllNoContent() throws JSONException {
-//		// Arrange
-//		
-//		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-//
-//		// Act
-//		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/person"), HttpMethod.GET, null,
-//				String.class);
-//
-//		// Assert
-//		JSONAssert.assertEquals("[]", response.getBody(), false);
-//	}
+    @Test
+    public void testFindAllNoContent() throws JSONException {
+        //Arrange
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-	@Test
-	public void testFindAllWithContent() throws JSONException {
-		// Arrange
-		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-		Person person1 = new Person();
-		person1.setName("person1");
-		person1.setSurname("surname");
-		dao.save(person1);
-		// dao.save(new Person());
-		// dao.save(new Person());
-		Person person2 = new Person();
-		person2.setName("person1");
-		person2.setSurname("surname");
-		dao.save(person2);
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/person"),
+                HttpMethod.GET, null, String.class);
 
-		// Act
-		ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/person"), HttpMethod.GET, null,
-				String.class);
+        // Assert
+        JSONAssert.assertEquals("[]", response.getBody(), false);
+    }
 
-		// Assert
-		JSONAssert.assertEquals("[{'id': 1, 'name': 'person1'}, {'id': 2, 'name': 'person1'}]", response.getBody(), false);
-	}
+    @Test
+    @DatabaseSetup("/InitialPerson.xml")
+    public void testFindAllWithContent() throws JSONException {
+        //Arrange
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-	private String createURLWithPort(String uri) {
-		return "http://localhost:" + port + uri;
-	}
+        // Act
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/person"),
+                HttpMethod.GET, null, String.class);
+
+        // Assert
+        JSONAssert.assertEquals("[{'id': 1, 'name':''}, {'id': 1, 'name':''}]", response.getBody(), false);
+    }
+
+    private String createURLWithPort(String uri) {
+        return "http://localhost:" + port + uri;
+    }
 }
