@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <POST post_id="1" text="aaa"/>
+    <POST post_id="2" text="bbb"/>
+    <POST post_id="3" text="ccc"/>
+    <POST post_id="4" text="ddd"/>
+</dataset>

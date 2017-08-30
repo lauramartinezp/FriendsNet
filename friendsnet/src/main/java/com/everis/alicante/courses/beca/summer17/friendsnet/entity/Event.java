@@ -15,14 +15,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.everis.alicante.courses.beca.summer17.friendsnet.entity.EventType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="EVENT")
+@EqualsAndHashCode(callSuper = false, exclude = { "personsEvent","posts" })
 public class Event implements FNEntity {
 
 	@Id

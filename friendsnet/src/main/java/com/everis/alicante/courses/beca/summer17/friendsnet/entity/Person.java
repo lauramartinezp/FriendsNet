@@ -7,21 +7,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "PERSON")
-@EqualsAndHashCode(callSuper = false, exclude = { "persons" })
+@EqualsAndHashCode(callSuper = false, exclude = { "persons","groups","events", "likes","posts" })
 public class Person implements FNEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,4 +59,5 @@ public class Person implements FNEntity {
 	@ManyToMany(mappedBy = "personsEvent")
 	@JsonIgnore
 	private Set<Event> events;
+
 }

@@ -15,13 +15,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.everis.alicante.courses.beca.summer17.friendsnet.entity.LikeType;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="LIKETABLE")
+@EqualsAndHashCode(callSuper = false, exclude = { "likesByPost","likesByPerson" })
 public class Like implements FNEntity{
 
 	@Id

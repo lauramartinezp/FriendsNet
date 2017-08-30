@@ -1,6 +1,5 @@
 package com.everis.alicante.courses.beca.summer17.friendsnet.entity;
 
-import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class PersonIT {
+public class PersonTest {
 	
 	private Person expectedPerson;
 
@@ -43,6 +42,7 @@ public class PersonIT {
 		this.expectedPerson.setSurname(expectedSurname);
 		this.expectedPerson.setPicture(expectedPicture);
 		this.expectedPerson.setPosts(expectedPosts);
+		this.expectedPerson.setPersons(expectedPersons);
 	}
 
 
@@ -84,13 +84,13 @@ public class PersonIT {
 		Assert.assertEquals(expectedPicture, result);
 	}
 
-	//@Test
-	//public void testGetPersons() {
+	@Test
+	public void testGetPersons() {
 		// Act
-	//	final Set<Person> result = this.expectedPerson.getPersons();
-	//	// Assert
-	//	Assert.assertEquals(expectedPersons, result);
-	//}
+		final Set<Person> result = this.expectedPerson.getPersons();
+		// Assert
+		Assert.assertEquals(expectedPersons, result);
+	}
 
 	
 
@@ -169,15 +169,15 @@ public class PersonIT {
 		Assert.assertEquals(expectedPicture, person.getPicture());
 	}
 
-	//@Test
-	//public void testSetPersons() {
+	@Test
+	public void testSetPersons() {
 		// Arrange
-	//	final Person person = new Person();
+		final Person person = new Person();
 		// Act
-	//	person.setPersons(expectedPersons);
-	//	// Assert
-	//	Assert.assertEquals(expectedPersons, person.getPersons());
-	//}
+		person.setPersons(expectedPersons);
+		// Assert
+		Assert.assertEquals(expectedPersons, person.getPersons());
+	}
 
 
 	@Test

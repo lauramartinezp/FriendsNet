@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <GROUPTABLE GROUPTABLE_ID="1" name="Pepe"/>
+    <GROUPTABLE GROUPTABLE_ID="2" name="Jose"/>
+    <GROUPTABLE GROUPTABLE_ID="3" name="Luis"/>
+    <GROUPTABLE GROUPTABLE_ID="4" name="Pepito"/>
+</dataset>

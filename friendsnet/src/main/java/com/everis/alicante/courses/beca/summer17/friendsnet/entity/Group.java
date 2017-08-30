@@ -9,10 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity(name="GROUPTABLE")
+@EqualsAndHashCode(callSuper = false, exclude = { "personsInGroup" })
 public class Group implements FNEntity {
 
 	@Id
